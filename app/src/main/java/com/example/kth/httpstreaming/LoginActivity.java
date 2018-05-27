@@ -331,7 +331,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             try {
                 // Simulate network access.
                 // Thread.sleep(2000);
-                URL url = new URL("http://192.168.219.104/login.php");
+                URL url = new URL("http://119.67.84.66/login.php");
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
                 conn.setReadTimeout(5000);
@@ -373,21 +373,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             boolean success = false;
 
-            try {
-                JSONObject jsonObj = new JSONObject(result);
-                JSONArray user = jsonObj.getJSONArray("account");
+            if(result != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(result);
+                    JSONArray user = jsonObj.getJSONArray("account");
 
-                for(int i=0; i<user.length(); i++) {
-                    JSONObject c = user.getJSONObject(i);
-                    String id = c.getString("ID");
-                    String password = c.getString("Password");
+                    for(int i=0; i<user.length(); i++) {
+                        JSONObject c = user.getJSONObject(i);
+                        String id = c.getString("ID");
+                        String password = c.getString("Password");
 
-                    if(mEmail.equals(id) && mPassword.equals(password)) {
-                        success = true;
+                        if(mEmail.equals(id) && mPassword.equals(password)) {
+                            success = true;
+                        }
                     }
+                } catch(JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch(JSONException e) {
-                e.printStackTrace();
             }
 
             if (success) {
